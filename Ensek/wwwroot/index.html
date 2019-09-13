@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<body>
 
-<div ng-app="">
-  <p>Upload: <input type="text" ng-model="name"></p>
-  <p ng-bind="name"></p>
-</div>
+<html ng-app="Ensek">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="app.js"></script>
 
+</head>
+<body ng-controller="MainCtrl">
+    <input type="file" ngf-select="SelectFile($file)" />
+    <input type="button" value="Upload" ng-click="Upload()" />
+    <hr />
+    <table id="tblCustomers" cellpadding="0" cellspacing="0" ng-show="IsVisible">
+        <tr>
+            <th>Customer Id</th>
+            <th>Name</th>
+            <th>Country</th>
+        </tr>
+        <tbody ng-repeat="m in Accounts">
+            <tr>
+                <td>{{m.AccountId}}</td>
+                <td>{{m.FirstName}}</td>
+                <td>{{m.LastName}}</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
+
 </html>

@@ -46,5 +46,14 @@ namespace Ensek.Controllers
 
             return meterReading;
         }
+        // POST: api/meterreading
+        [HttpPost]
+        public async Task<ActionResult<Account>> PostTodoItem(MeterReading meterReading)
+        {
+            _context.MeterReading.Add(meterReading);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetMeterReading), new { id = meterReading.AccountId }, meterReading);
+        }
     }
 }

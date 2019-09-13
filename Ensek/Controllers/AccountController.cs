@@ -49,7 +49,7 @@ namespace Ensek.Controllers
 
         // POST: api/account
         [HttpPost]
-        public async Task<ActionResult<Account>> PostTodoItem(Account account)
+        public async Task<ActionResult<Account>> PostAccount(Account account)
         {
             _context.Account.Add(account);
             await _context.SaveChangesAsync();
