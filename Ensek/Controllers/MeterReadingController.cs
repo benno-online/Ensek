@@ -16,14 +16,6 @@ namespace Ensek.Controllers
         public MeterReadingController(EnsekContext context)
         {
             _context = context;
-
-            if (_context.MeterReading.Count() == 0)
-            {
-                // Create a new reading if collection is empty,
-                // which means you can't delete all readings.
-                _context.MeterReading.Add(new MeterReading { Id = 1 });
-                _context.SaveChanges();
-            }
         }
 
         // GET: api/meterreading
@@ -53,7 +45,12 @@ namespace Ensek.Controllers
             _context.MeterReading.Add(meterReading);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMeterReading), new { id = meterReading.AccountId }, meterReading);
+            // Check if the accountId exists 
+            if (_context.Account.Any(o => o.AccountId == meterReading.AccountId))
+            {
+                return CreatedAtAction(nameof(GetMeterReading), new { id = meterReading.AccountId }, meterReading);
+            }
+            return BadRequest();
         }
     }
 }

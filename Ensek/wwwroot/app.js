@@ -4,44 +4,53 @@ app.controller('MainCtrl', function ($scope, $window, $http) {
         $scope.SelectedFile = file;
     };
 
-    $scope.SuccessCount = 0;
-    $scope.FailCount = 0;
+    $scope.AccountSuccessCount = 0;
+    $scope.AccountFailCount = 0;
+    $scope.MeterSuccessCount = 0;
+    $scope.MeterFailCount = 0;
+    $scope.MeterReadingId = 1;
 
-    function AddAccount() {
+    function AddAccount(currentline) {
         var data = {
-            AccountId: $scope.AccountId,
-            FirstName: $scope.FirstName,
-            LastName: $scope.LastName
+            AccountId: currentline[0],
+            FirstName: currentline[1],
+            LastName: currentline[2]
         };
+
         $http.post('/api/account', JSON.stringify(data), ).then(function (response) {
-
         if (response.data)
-
-            $scope.msg = "Post Data Submitted Successfully!";
-            $scope.SuccessCount++;
-
+            $scope.AccountSuccessCount++;
         }, function (response) {
-
-            $scope.msg = response.data;
-            $scope.FailCount++;
+            $scope.AccountFailCount++;
         });
     };
 
-    $scope.Upload = function () {
+    function AddMeterReadings(currentline) {
+        var data = {
+            Id: $scope.MeterReadingId++,
+            AccountId: currentline[0],
+            MeterReadingDateTime: currentline[1],
+            MeterReadValue: currentline[2]
+        };
+
+        $http.post('/api/meterreading', JSON.stringify(data)).then(function (response) {
+        if (response.data)
+            $scope.MeterSuccessCount++;
+        }, function (response) {
+            $scope.MeterFailCount++;
+        });
+    };
+
+    $scope.UploadAccount = function () {
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
         if (regex.test($scope.SelectedFile.name.toLowerCase())) {
             if (typeof (FileReader) != "undefined") {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var lines = e.target.result.split("\r\n");
-                    var result = [];
-                    var headers = lines[0].split(",");
                     for (var i = 1; i < lines.length; i++) {
                         var currentline = lines[i].split(",");
-                        $scope.AccountId = currentline[0];
-                        $scope.FirstName = currentline[1];
-                        $scope.LastName = currentline[2];
-                        AddAccount();
+                        AddAccount(currentline);
                     }
                 }
                 reader.readAsText($scope.SelectedFile);
@@ -51,7 +60,29 @@ app.controller('MainCtrl', function ($scope, $window, $http) {
         } else {
             $window.alert("Please upload a valid CSV file.");
         }
-    }
+    };
+
+    $scope.UploadMeterReadings = function () {
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+        if (regex.test($scope.SelectedFile.name.toLowerCase())) {
+            if (typeof (FileReader) != "undefined") {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var lines = e.target.result.split("\r\n");
+                    for (var i = 1; i < lines.length; i++) {
+                        var currentline = lines[i].split(",");
+                        AddMeterReadings(currentline);
+                    }
+                }
+                reader.readAsText($scope.SelectedFile);
+            } else {
+                $window.alert("This browser does not support HTML5.");
+            }
+        } else {
+            $window.alert("Please upload a valid CSV file.");
+        }
+    };
+
 });
 
 

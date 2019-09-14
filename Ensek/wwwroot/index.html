@@ -11,12 +11,19 @@
 
 </head>
 <body ng-controller="MainCtrl">
+    <h2>Upload Account CSV</h2>
     <input type="file" ngf-select="SelectFile($file)" />
-    <input type="button" value="Upload" ng-click="Upload()" />
+    <input type="button" value="Upload" ng-click="UploadAccount()" />
     <hr />
-    <p>{{SuccessCount}}</p>
-    <p>{{FailCount}}</p>
-    <p>{{msg}}</p>
+    <p>Successful entries: {{AccountSuccessCount}}</p>
+    <p>Failed entries: {{AccountFailCount}}</p>
+    <hr />
+    <h2>Upload Meter Reading CSV</h2>
+    <input type="file" ngf-select="SelectFile($file)" />
+    <input type="button" value="Upload" ng-click="UploadMeterReadings()" />
+    <hr />
+    <p>Successful entries: {{MeterSuccessCount}}</p>
+    <p>Failed entries: {{MeterFailCount}}</p>
 </body>
 
 </html>

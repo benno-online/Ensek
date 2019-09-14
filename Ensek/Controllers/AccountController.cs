@@ -16,14 +16,6 @@ namespace Ensek.Controllers
         public AccountController(EnsekContext context)
         {
             _context = context;
-
-            if (_context.Account.Count() == 0)
-            {
-                // Create a new Account if collection is empty,
-                // which means you can't delete all Accounts.
-                _context.Account.Add(new Account { AccountId = 1 });
-                _context.SaveChanges();
-            }
         }
 
         // GET: api/account
