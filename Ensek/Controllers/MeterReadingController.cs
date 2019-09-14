@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ensek.Models;
+using System.Text.RegularExpressions;
 
 namespace Ensek.Controllers
 {
@@ -40,15 +41,24 @@ namespace Ensek.Controllers
         }
         // POST: api/meterreading
         [HttpPost]
-        public async Task<ActionResult<Account>> PostTodoItem(MeterReading meterReading)
+        public async Task<ActionResult<Account>> PostMeterReading(MeterReading meterReading)
         {
             _context.MeterReading.Add(meterReading);
-            await _context.SaveChangesAsync();
 
-            // Check if the accountId exists 
-            if (_context.Account.Any(o => o.AccountId == meterReading.AccountId))
+            // Check the meterreadvalue is in the format NNNNN
+            Regex rgx = new Regex(@"^\d{5}$");
+            if (rgx.IsMatch(meterReading.MeterReadValue))
             {
-                return CreatedAtAction(nameof(GetMeterReading), new { id = meterReading.AccountId }, meterReading);
+                // Check if the accountId exists 
+                if (_context.Account.Any(o => o.AccountId == meterReading.AccountId))
+                {
+                    // Check if the meter read value already exists. AccountId and Value create a unique record.
+                    if ((_context.MeterReading.Any(m => m.AccountId == meterReading.AccountId && m.MeterReadValue == meterReading.MeterReadValue)) == false)
+                    {
+                        await _context.SaveChangesAsync();
+                        return CreatedAtAction(nameof(GetMeterReading), new { id = meterReading.AccountId }, meterReading);
+                    }
+                }
             }
             return BadRequest();
         }

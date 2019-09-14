@@ -7,23 +7,29 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
     <script>document.write('<base href="' + document.location + '" />');</script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="app.js"></script>
 
 </head>
 <body ng-controller="MainCtrl">
-    <h2>Upload Account CSV</h2>
-    <input type="file" ngf-select="SelectFile($file)" />
-    <input type="button" value="Upload" ng-click="UploadAccount()" />
-    <hr />
-    <p>Successful entries: {{AccountSuccessCount}}</p>
-    <p>Failed entries: {{AccountFailCount}}</p>
-    <hr />
-    <h2>Upload Meter Reading CSV</h2>
-    <input type="file" ngf-select="SelectFile($file)" />
-    <input type="button" value="Upload" ng-click="UploadMeterReadings()" />
-    <hr />
-    <p>Successful entries: {{MeterSuccessCount}}</p>
-    <p>Failed entries: {{MeterFailCount}}</p>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Meter Readings Upload Tool</h1>
+        </div>
+        <h2>Upload Account CSV</h2>
+        <input type="file" ngf-select="SelectFile($file)" />
+        <input type="button" value="Upload" ng-click="UploadAccount()" />
+        <hr />
+        <p>Successful entries: {{AccountSuccessCount}}</p>
+        <p>Failed entries: {{AccountFailCount}}</p>
+        <hr />
+        <h2>Upload Meter Reading CSV</h2>
+        <input type="file" ngf-select="SelectFile($file)" />
+        <input type="button" value="Upload" ng-click="UploadMeterReadings()" />
+        <hr />
+        <p>Successful entries: {{MeterSuccessCount}}</p>
+        <p>Failed entries: {{MeterFailCount}}</p>
+    </div>
 </body>
 
 </html>
